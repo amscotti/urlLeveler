@@ -1,4 +1,5 @@
-# A simple example of using LevelDB to make a URL shortener
+# urlLeveler
+A simple example of using LevelDB to make a URL shortener
 
 ## Dependencies
 * [Express](http://expressjs.com) is used for API layer.
