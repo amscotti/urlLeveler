@@ -1,6 +1,6 @@
 {
-  "name": "urlLeveler",
-  "version": "0.0.0",
+  "name": "url-leveler",
+  "version": "1.0.0",
   "description": "URL Shortener using LevelDB",
   "main": "server.js",
   "scripts": {
@@ -9,10 +9,12 @@
   "author": "Anthony Scotti <anthony.m.scotti@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "level": "~0.18.0",
-    "q": "~0.9.7",
-    "shortid": "~2.0.0",
-    "express": "~3.4.5",
-    "express-promise": "~0.1.9"
+    "express": "^4.16.0",
+    "body-parser": "^1.18.3",
+    "level": "^4.0.0",
+    "shortid": "^2.2.8"
+  },
+  "devDependencies": {
+    "standard": "^11.0.1"
   }
 }

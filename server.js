@@ -1,30 +1,41 @@
-var shortener = require('./lib/shortener'),
-	express = require('express'),
-	app = express();
+const express = require('express')
+const shortener = require('./lib/shortener')
+const bodyParser = require('body-parser')
 
-app.use(require('express-promise')());
-app.use(express.bodyParser());
+const app = express()
 
-app.get('/get/:id', function(req, res) {	
-	res.json({
-	    key: req.params.id,
-	    url: shortener.getURL(req.params.id)
-	  });
-});
+app.use(bodyParser.urlencoded({ extended: true }))
 
-app.get('/:id', function(req, res) {
-	shortener.getURL(req.param('id')).then(function (url) {
-		res.redirect(url);
-	});
-});
+app.get('/get/:id', (req, res) => {
+  shortener.getURL(req.params.id).then((url) => {
+    res.json({
+      key: req.params.id,
+      url: url
+    })
+  }).catch(() => {
+    res.status(404).send({ error: `Key ${req.params.id} not found in database` })
+  })
+})
 
-app.post('/', function(req, res) {	
-	res.json({
-	    key: shortener.addURL(req.body.url),
-	    url: req.body.url
-	  });
-});
+app.get('/:id', (req, res) => {
+  shortener.getURL(req.params.id).then((url) => {
+    res.redirect(url)
+  }).catch(() => {
+    res.status(404).send({ error: `Key ${req.params.id} not found in database` })
+  })
+})
 
+app.post('/', (req, res) => {
+  shortener.addURL(req.body.url).then((key) => {
+    res.json({
+      key: key,
+      url: req.body.url
+    })
+  }).catch(() => {
+    res.status(500).send({ error: 'Error creating URL' })
+  })
+})
 
-app.listen(8000);
-console.log("Listen on port 8000");
+const port = process.env.PORT || 8000
+app.listen(port)
+console.log(`Listen on port ${port}`)
