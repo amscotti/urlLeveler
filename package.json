@@ -9,9 +9,10 @@
   "author": "Anthony Scotti <anthony.m.scotti@gmail.com>",
   "license": "MIT",
   "dependencies": {
-    "express": "^4.16.0",
     "body-parser": "^1.18.3",
+    "express": "^4.16.0",
     "level": "^4.0.0",
+    "morgan": "^1.9.0",
     "shortid": "^2.2.8"
   },
   "devDependencies": {
