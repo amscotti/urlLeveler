@@ -5,7 +5,7 @@ A simple example of using LevelDB to make a URL shortener, with Node.js, Express
 `npm install`
 
 ## Running
-`npm run start`
+`npm start`
 
 ## Usage
 
