@@ -1,10 +1,10 @@
-import express from "express";
-import graphQLHTTP from "express-graphql";
-import morgan from "morgan";
-import Database from "./lib/database";
-import Shortener from "./lib/shortener";
-import apiModule from "./lib/api";
-import schemaModule from "./lib/schema";
+const express = require("express");
+const { createHandler } = require("graphql-http/lib/use/express");
+const morgan = require("morgan");
+const Database = require("./lib/database.js");
+const Shortener = require("./lib/shortener.js");
+const apiModule = require("./lib/api.js");
+const schemaModule = require("./lib/schema.js");
 
 const database = new Database();
 const shortener = new Shortener(database);
@@ -21,26 +21,18 @@ app.use(morgan("tiny"));
 app.use("/api", apiRouter);
 
 // GraphQL API
-app.use(
-  "/graphql",
-  graphQLHTTP({
-    schema,
-    graphiql: !(process.env.NODE_ENV === "production")
-  })
-);
+app.use("/graphql", createHandler({ schema }));
 
 // Based URL for redirects
-app.get("/:id", (req, res) => {
-  shortener
-    .getURL(req.params.id)
-    .then(data => {
-      res.redirect(data.url);
-    })
-    .catch(() => {
-      res
-        .status(404)
-        .send({ error: `Key ${req.params.id} not found in database` });
-    });
+app.get("/:id", async (req, res) => {
+  try {
+    const { url } = await shortener.getURL(req.params.id);
+    res.redirect(url);
+  } catch (err) {
+    res
+      .status(404)
+      .send({ error: `Key ${req.params.id} not found in database` });
+  }
 });
 
 const port = process.env.PORT || 8000;
