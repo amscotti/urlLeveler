@@ -1,5 +1,6 @@
 {
   "name": "url-leveler",
+  "type": "module",
   "version": "2.0.0",
   "description": "URL Shortener using LevelDB",
   "main": "server.js",
@@ -18,7 +19,7 @@
   "devDependencies": {
     "husky": "^8.0.3",
     "lint-staged": "^13.2.2",
-    "prettier": "^2.8.8"
+    "standard": "^17.1.0"
   },
   "husky": {
     "hooks": {
@@ -26,8 +27,8 @@
     }
   },
   "lint-staged": {
-    "*.{js,json,css,md,html}": [
-      "prettier --write",
+    "*.js": [
+      "standard --fix",
       "git add"
     ]
   }
